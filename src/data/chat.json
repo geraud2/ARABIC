@@ -1,0 +1,74 @@
+{
+  "lessons": [
+    {
+      "id": 1,
+      "title": "Lettre Alif - ا",
+      "description": "Découvre la première lettre de l'alphabet arabe",
+      "level": "débutant",
+      "duration": "5 min",
+      "messages": [
+        {
+          "id": 1,
+          "type": "ai",
+          "text": "Marhaba ! 🌟\n\nBienvenue dans ta première leçon d'arabe avec Arabika.\n\nAujourd'hui, nous allons découvrir la lettre Alif, la première et plus importante lettre de l'alphabet arabe.",
+          "arabic": "ا",
+          "transliteration": "Alif",
+          "pronunciation": "a-lif",
+          "options": ["C'est parti ! 🚀", "Parle-moi d'Alif"]
+        },
+        {
+          "id": 2,
+          "type": "ai",
+          "text": "Parfait ! Voici la lettre Alif :\n\nC'est une lettre droite et élégante qui représente le son 'a' comme dans le mot 'arbre'.\n\nElle est la base de beaucoup d'autres lettres !",
+          "arabic": "ا",
+          "options": ["Je vois la lettre ا", "Comment se prononce-t-elle ?", "Montre-moi des exemples"]
+        },
+        {
+          "id": 3,
+          "type": "ai", 
+          "text": "Excellente question ! 🎯\n\nAlif se prononce 'a-lif'. C'est un son long et clair.\n\nÉcoute bien la prononciation et essaie de la répéter.",
+          "arabic": "ا",
+          "pronunciation": "a-lif",
+          "options": ["🔊 Écouter la prononciation", "Je veux pratiquer", "Je maîtrise Alif ✅"]
+        },
+        {
+          "id": 4,
+          "type": "ai",
+          "text": "Super travail ! 👏\n\nAlif a une particularité : elle ne change pas de forme selon sa position dans le mot. Elle reste toujours droite et majestueuse.\n\nC'est une lettre très stable !",
+          "options": ["Voir des mots avec Alif", "Passer à la lettre suivante", "Réviser Alif"]
+        },
+        {
+          "id": 5,
+          "type": "ai",
+          "text": "Félicitations ! 🎉\n\nTu as maîtrisé la lettre Alif. C'est un excellent début dans ton apprentissage de l'arabe.\n\nTu es maintenant prêt(e) pour la prochaine aventure !",
+          "options": ["Continuer avec Ba - ب", "Réviser Alif - ا", "Voir mon profil 📊", "Retour à l'accueil 🏠"]
+        }
+      ]
+    },
+    {
+      "id": 2, 
+      "title": "Lettre Ba - ب",
+      "description": "Apprends la deuxième lettre et forme tes premiers mots",
+      "level": "débutant",
+      "duration": "7 min",
+      "messages": [
+        {
+          "id": 1,
+          "type": "ai",
+          "text": "Mabrouk ! 🎊\n\nPassons maintenant à la deuxième lettre : Ba.\n\nElle se prononce comme le 'b' français et a une forme très distinctive.",
+          "arabic": "ب",
+          "transliteration": "Ba", 
+          "pronunciation": "ba",
+          "options": ["Montre-moi Ba !", "Comment se prononce-t-elle ?"]
+        },
+        {
+          "id": 2,
+          "type": "ai",
+          "text": "Voici la lettre Ba :\n\nRegarde bien, elle a un point en dessous ! C'est ce qui la distingue des autres lettres.\n\nCe point est très important pour la reconnaître.",
+          "arabic": "ب",
+          "options": ["Je vois le point 🔵", "Écouter la prononciation", "Passer à la pratique"]
+        }
+      ]
+    }
+  ]
+}

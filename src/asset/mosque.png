@@ -1,0 +1,5 @@
+<img 
+  src="/src/assets/images/mosque.png" 
+  alt="Mosquée"
+  className="w-64 h-64 object-contain opacity-20"
+/>

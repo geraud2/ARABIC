@@ -1,0 +1,28 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply bg-cream;
+  }
+
+  * {
+    @apply scrollbar-thin scrollbar-thumb-gold scrollbar-track-cream;
+  }
+}
+
+@layer utilities {
+  .scrollbar-thin::-webkit-scrollbar {
+    width: 8px;
+  }
+
+  .scrollbar-thumb-gold::-webkit-scrollbar-thumb {
+    background-color: #CBA76A;
+    border-radius: 4px;
+  }
+
+  .scrollbar-track-cream::-webkit-scrollbar-track {
+    background-color: #FFF6E5;
+  }
+}
