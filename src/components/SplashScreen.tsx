@@ -27,10 +27,10 @@ const SplashScreen = () => {
         >
           {/* Logo Fisabil avec bord arrondi */}
           <img 
-  src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=200&h=200&fit=crop" 
-  alt="Fisabil"
-  className="w-32 h-32 object-cover rounded-full border-4 border-[#53B16F]"
-/>
+            src="/fisa.jpeg" 
+            alt="Fisabil"
+            className="w-40 h-40 mx-auto mb-4 object-cover rounded-full border-4 border-[#53B16F] shadow-lg"
+          />
           
           {/* Étoile arabe au-dessus du logo */}
           <motion.div
