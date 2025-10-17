@@ -27,7 +27,7 @@ const SplashScreen = () => {
         >
           {/* Logo Fisabil avec bord arrondi */}
           <img 
-            src="/fisa.jpeg" 
+            src="fisa.jpeg" 
             alt="Fisabil"
             className="w-40 h-40 mx-auto mb-4 object-cover rounded-full border-4 border-[#53B16F] shadow-lg"
           />
