@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Home, Volume2, Scan, Send } from 'lucide-react';
+import { ArrowLeft, Home, Volume2, Scan, Send, Menu } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import ChatAssistant from '../components/ChatAssistant';
 import MessageBubble from '../components/MessageBubble';
@@ -20,6 +20,7 @@ const ChatPage = () => {
   const [messages, setMessages] = useState<Message[]>([]);
   const [isTyping, setIsTyping] = useState(false);
   const [userInput, setUserInput] = useState('');
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const scrollToBottom = () => {
@@ -226,43 +227,111 @@ De quoi as-tu envie de parler aujourd'hui ?`);
   };
 
   return (
-    <div className="min-h-screen bg-white flex flex-col pb-16">
+    <div className="min-h-screen bg-white flex flex-col pb-16 safe-area-bottom">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-[#53B16F]/20 sticky top-0 z-10">
-        <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
+      <div className="bg-white shadow-sm border-b border-[#53B16F]/20 sticky top-0 z-20 safe-area-top">
+        <div className="max-w-2xl mx-auto px-4 py-3 sm:py-4 flex items-center justify-between">
+          {/* Bouton retour - caché sur mobile, visible sur desktop */}
           <button
             onClick={() => navigate(-1)}
-            className="flex items-center gap-2 text-[#53B16F] hover:text-[#53B16F]/80 transition-colors"
+            className="hidden sm:flex items-center gap-2 text-[#53B16F] hover:text-[#53B16F]/80 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
             <span className="text-sm font-medium">Retour</span>
           </button>
 
-          <div className="text-center">
+          {/* Menu mobile */}
+          <button
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+            className="sm:hidden text-[#53B16F] hover:text-[#53B16F]/80 transition-colors"
+          >
+            <Menu className="w-6 h-6" />
+          </button>
+
+          <div className="text-center flex-1 sm:flex-none">
             <h1 className="text-lg font-semibold text-[#53B16F]">
               Chat Arabe
             </h1>
-            <p className="text-xs text-[#53B16F]/70">Discute avec ton professeur IA</p>
+            <p className="text-xs text-[#53B16F]/70 hidden xs:block">
+              Discute avec ton professeur IA
+            </p>
           </div>
 
-          <button
-            onClick={() => navigate('/scan')}
-            className="text-[#53B16F] hover:text-[#53B16F]/80 transition-colors"
-            title="Scanner un texte"
-          >
-            <Scan className="w-5 h-5" />
-          </button>
+          <div className="flex items-center gap-2">
+            {/* Bouton scan */}
+            <button
+              onClick={() => navigate('/scan')}
+              className="text-[#53B16F] hover:text-[#53B16F]/80 transition-colors"
+              title="Scanner un texte"
+            >
+              <Scan className="w-5 h-5" />
+            </button>
+
+            {/* Bouton accueil - visible uniquement sur mobile */}
+            <button
+              onClick={() => navigate('/')}
+              className="sm:hidden text-[#53B16F] hover:text-[#53B16F]/80 transition-colors"
+              title="Accueil"
+            >
+              <Home className="w-5 h-5" />
+            </button>
+          </div>
         </div>
+
+        {/* Menu mobile déroulant */}
+        {isMobileMenuOpen && (
+          <motion.div
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: 'auto' }}
+            exit={{ opacity: 0, height: 0 }}
+            className="sm:hidden bg-white border-t border-[#53B16F]/10 px-4 py-3"
+          >
+            <div className="flex flex-col space-y-3">
+              <button
+                onClick={() => {
+                  navigate(-1);
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-3 text-[#53B16F] py-2"
+              >
+                <ArrowLeft className="w-5 h-5" />
+                <span>Retour</span>
+              </button>
+              <button
+                onClick={() => {
+                  navigate('/');
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-3 text-[#53B16F] py-2"
+              >
+                <Home className="w-5 h-5" />
+                <span>Accueil</span>
+              </button>
+              <button
+                onClick={() => {
+                  navigate('/scan');
+                  setIsMobileMenuOpen(false);
+                }}
+                className="flex items-center gap-3 text-[#53B16F] py-2"
+              >
+                <Scan className="w-5 h-5" />
+                <span>Scanner un texte</span>
+              </button>
+            </div>
+          </motion.div>
+        )}
       </div>
 
       {/* Messages */}
       <div className="flex-1 overflow-y-auto">
-        <div className="max-w-2xl mx-auto px-4 py-6">
+        <div className="max-w-2xl mx-auto px-3 sm:px-4 py-4 sm:py-6">
           {/* Assistant */}
-          <ChatAssistant isTyping={isTyping} />
+          <div className="mb-4 sm:mb-6">
+            <ChatAssistant isTyping={isTyping} />
+          </div>
 
           {/* Messages */}
-          <div className="space-y-4">
+          <div className="space-y-3 sm:space-y-4">
             {messages.map((message, index) => (
               <div key={`${message.id}-${index}`}>
                 <MessageBubble
@@ -275,15 +344,16 @@ De quoi as-tu envie de parler aujourd'hui ?`);
                 
                 {/* Bouton audio pour les messages en arabe */}
                 {message.arabic && message.type === 'ai' && (
-                  <div className="flex justify-center mb-4">
+                  <div className="flex justify-center my-3 sm:my-4">
                     <motion.button
                       whileHover={{ scale: 1.05 }}
                       whileTap={{ scale: 0.95 }}
                       onClick={() => playAudio(message.arabic!)}
-                      className="flex items-center gap-2 bg-[#53B16F] text-white px-4 py-2 rounded-full text-sm shadow-lg hover:shadow-xl transition-shadow"
+                      className="flex items-center gap-2 bg-[#53B16F] text-white px-3 sm:px-4 py-2 rounded-full text-xs sm:text-sm shadow-lg hover:shadow-xl transition-shadow"
                     >
-                      <Volume2 className="w-4 h-4" />
-                      <span>Écouter la prononciation</span>
+                      <Volume2 className="w-3 h-3 sm:w-4 sm:h-4" />
+                      <span className="hidden xs:inline">Écouter la prononciation</span>
+                      <span className="xs:hidden">Écouter</span>
                     </motion.button>
                   </div>
                 )}
@@ -295,7 +365,7 @@ De quoi as-tu envie de parler aujourd'hui ?`);
       </div>
 
       {/* Input message */}
-      <div className="sticky bottom-16 bg-white border-t border-[#53B16F]/20 p-4">
+      <div className="sticky bottom-16 bg-white border-t border-[#53B16F]/20 p-3 sm:p-4 safe-area-bottom">
         <div className="max-w-2xl mx-auto flex gap-2">
           <input
             type="text"
@@ -303,16 +373,16 @@ De quoi as-tu envie de parler aujourd'hui ?`);
             onChange={(e) => setUserInput(e.target.value)}
             onKeyPress={handleKeyPress}
             placeholder="Tape ton message ici..."
-            className="flex-1 px-4 py-3 border border-[#53B16F]/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#53B16F] focus:border-transparent text-[#53B16F] placeholder-[#53B16F]/40"
+            className="flex-1 px-3 sm:px-4 py-2 sm:py-3 border border-[#53B16F]/20 rounded-xl focus:outline-none focus:ring-2 focus:ring-[#53B16F] focus:border-transparent text-[#53B16F] placeholder-[#53B16F]/40 text-sm sm:text-base"
           />
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
             onClick={handleSendMessage}
             disabled={!userInput.trim() || isTyping}
-            className="bg-[#53B16F] text-white p-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-[#53B16F] text-white p-2 sm:p-3 rounded-xl disabled:opacity-50 disabled:cursor-not-allowed flex-shrink-0"
           >
-            <Send className="w-5 h-5" />
+            <Send className="w-4 h-4 sm:w-5 sm:h-5" />
           </motion.button>
         </div>
       </div>
