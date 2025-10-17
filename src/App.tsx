@@ -1,4 +1,5 @@
-import { BrowserRouter, Routes, Route } from 'react-router-dom';
+import { Routes, Route } from 'react-router-dom';
+import { HashRouter } from 'react-router-dom';
 import { useState, useEffect } from 'react';
 import SplashScreen from './components/SplashScreen';
 import LoginPage from './pages/LoginPage';
@@ -56,7 +57,7 @@ function App() {
   }
 
   return (
-    <BrowserRouter>
+    <HashRouter>
       <Routes>
         {/* Routes d'authentification */}
         <Route path="/" element={<LoginPage />} />
@@ -79,7 +80,7 @@ function App() {
         {/* Route de fallback */}
         <Route path="*" element={<LoginPage />} />
       </Routes>
-    </BrowserRouter>
+    </HashRouter>
   );
 }
 
