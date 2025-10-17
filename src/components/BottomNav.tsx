@@ -16,12 +16,13 @@ const BottomNav = () => {
     { path: '/review', icon: BookOpen, label: 'Révision' },
   ];
 
-  // Toutes les autres pages dans le menu "Plus"
+  // Toutes les autres pages dans le menu "Plus" - AVEC SETTINGS AJOUTÉ
   const moreMenuItems = [
     { path: '/audio', icon: Volume2, label: 'Audio' },
     { path: '/vocabulary', icon: BookOpen, label: 'Vocabulaire' },
     { path: '/profile', icon: User, label: 'Profil' },
     { path: '/subscription', icon: Crown, label: 'Abonnement' },
+    { path: '/settings', icon: Settings, label: 'Paramètres' }, // ← SETTINGS AJOUTÉ ICI
   ];
 
   const isMoreMenuActive = moreMenuItems.some(item => location.pathname === item.path);
