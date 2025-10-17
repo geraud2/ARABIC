@@ -7,6 +7,7 @@ interface MessageBubbleProps {
   arabic?: string;
   transliteration?: string;
   pronunciation?: string;
+  isFromScannedText?: boolean;
 }
 
 const MessageBubble = ({
@@ -14,7 +15,8 @@ const MessageBubble = ({
   type,
   arabic,
   transliteration,
-  pronunciation
+  pronunciation,
+  isFromScannedText = false
 }: MessageBubbleProps) => {
   const isAI = type === 'ai';
 
@@ -28,28 +30,39 @@ const MessageBubble = ({
       <div
         className={`max-w-[80%] rounded-3xl px-6 py-4 ${
           isAI
-            ? 'bg-white text-[#3E2C1E] shadow-lg border border-[#CBA76A]/20'
-            : 'bg-gradient-to-r from-[#CBA76A] to-[#8B5E3C] text-white'
+            ? `bg-white text-[#53B16F] shadow-lg border ${
+                isFromScannedText 
+                  ? 'border-[#53B16F] border-2 bg-[#53B16F]/5' 
+                  : 'border-[#53B16F]/20'
+              }`
+            : 'bg-gradient-to-r from-[#53B16F] to-[#53B16F] text-white'
         }`}
       >
+        {isFromScannedText && (
+          <div className="flex items-center gap-1 mb-2 text-xs text-[#53B16F] font-medium">
+            <span>📖</span>
+            <span>Texte scanné analysé</span>
+          </div>
+        )}
+        
         <p className="text-sm leading-relaxed whitespace-pre-line">{text}</p>
 
         {arabic && (
           <motion.div 
             initial={{ scale: 0.8 }}
             animate={{ scale: 1 }}
-            className="mt-4 p-4 bg-[#FFF6E5] rounded-2xl text-center border border-[#CBA76A]/10"
+            className="mt-4 p-4 bg-[#53B16F]/5 rounded-2xl text-center border border-[#53B16F]/20"
           >
-            <div className="text-6xl font-arabic text-[#3E2C1E] mb-2">
+            <div className="text-6xl font-arabic text-[#53B16F] mb-2">
               {arabic}
             </div>
             {transliteration && (
-              <div className="text-sm text-[#8B5E3C] font-medium mb-1">
+              <div className="text-sm text-[#53B16F] font-medium mb-1">
                 {transliteration}
               </div>
             )}
             {pronunciation && (
-              <div className="text-xs text-[#8B5E3C] opacity-70">
+              <div className="text-xs text-[#53B16F] opacity-70">
                 Prononciation: {pronunciation}
               </div>
             )}

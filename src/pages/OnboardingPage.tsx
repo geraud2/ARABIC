@@ -55,31 +55,31 @@ const OnboardingPage = () => {
   const steps = [
     {
       title: "Préparons ton voyage arabe",
-      subtitle: "Comme un bon thé, l'arabe s'apprécie avec patience et régularité",
+      subtitle: "Comme une bonne préparation, l'arabe s'apprend avec méthode et régularité",
       illustration: "tea" as IconName,
       content: (
         <div className="space-y-4">
           <div>
-            <label className="block text-[#3E2C1E] text-sm font-medium mb-2 text-left">
+            <label className="block text-[#53B16F] text-sm font-medium mb-2 text-left">
               Comment t'appelles-tu ?
             </label>
             <input
               type="text"
               value={userData.name}
               onChange={(e) => setUserData({...userData, name: e.target.value})}
-              className="w-full px-4 py-3 border border-[#CBA76A] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CBA76A] focus:border-transparent"
+              className="w-full px-4 py-3 border border-[#53B16F] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#53B16F] focus:border-transparent"
               placeholder="Ton prénom"
             />
           </div>
           <div>
-            <label className="block text-[#3E2C1E] text-sm font-medium mb-2 text-left">
+            <label className="block text-[#53B16F] text-sm font-medium mb-2 text-left">
               Quel âge as-tu ?
             </label>
             <input
               type="number"
               value={userData.age}
               onChange={(e) => setUserData({...userData, age: e.target.value})}
-              className="w-full px-4 py-3 border border-[#CBA76A] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CBA76A] focus:border-transparent"
+              className="w-full px-4 py-3 border border-[#53B16F] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#53B16F] focus:border-transparent"
               placeholder="Ton âge"
               min="5"
               max="100"
@@ -106,12 +106,12 @@ const OnboardingPage = () => {
               onClick={() => setUserData({...userData, level: option.value})}
               className={`w-full p-4 border-2 rounded-xl text-left flex items-center space-x-3 transition-all ${
                 userData.level === option.value 
-                  ? 'border-[#CBA76A] bg-[#FFF6E5]' 
-                  : 'border-gray-200 hover:border-[#CBA76A]'
+                  ? 'border-[#53B16F] bg-[#53B16F]/10' 
+                  : 'border-gray-200 hover:border-[#53B16F]'
               }`}
             >
               <Icon name={option.icon} className="text-2xl" />
-              <span className="text-[#3E2C1E]">{option.text}</span>
+              <span className="text-[#53B16F]">{option.text}</span>
             </motion.button>
           ))}
         </div>
@@ -143,17 +143,17 @@ const OnboardingPage = () => {
               }}
               className={`w-full p-4 border-2 rounded-xl text-left flex items-center space-x-3 transition-all ${
                 userData.goals.includes(option.value)
-                  ? 'border-[#CBA76A] bg-[#FFF6E5]' 
-                  : 'border-gray-200 hover:border-[#CBA76A]'
+                  ? 'border-[#53B16F] bg-[#53B16F]/10' 
+                  : 'border-gray-200 hover:border-[#53B16F]'
               }`}
             >
               <div className="flex items-center justify-center w-6 h-6 border-2 rounded border-current">
                 {userData.goals.includes(option.value) && (
-                  <div className="w-3 h-3 bg-[#CBA76A] rounded-sm" />
+                  <div className="w-3 h-3 bg-[#53B16F] rounded-sm" />
                 )}
               </div>
               <Icon name={option.icon} className="text-xl" />
-              <span className="text-[#3E2C1E]">{option.text}</span>
+              <span className="text-[#53B16F]">{option.text}</span>
             </motion.button>
           ))}
         </div>
@@ -166,9 +166,9 @@ const OnboardingPage = () => {
       content: (
         <div className="space-y-3">
           {[
-            { icon: "sun" as IconName, text: "5 min/jour - Léger comme un thé", value: "light" },
-            { icon: "moon" as IconName, text: "15 min/jour - Régulier comme l'appel à la prière", value: "regular" },
-            { icon: "star" as IconName, text: "30 min/jour - Intense comme un café turc", value: "intense" }
+            { icon: "sun" as IconName, text: "5 min/jour - Léger et régulier", value: "light" },
+            { icon: "moon" as IconName, text: "15 min/jour - Engagement modéré", value: "regular" },
+            { icon: "star" as IconName, text: "30 min/jour - Apprentissage intensif", value: "intense" }
           ].map((option) => (
             <motion.button
               key={option.value}
@@ -177,12 +177,12 @@ const OnboardingPage = () => {
               onClick={() => setUserData({...userData, frequency: option.value})}
               className={`w-full p-4 border-2 rounded-xl text-left flex items-center space-x-3 transition-all ${
                 userData.frequency === option.value 
-                  ? 'border-[#CBA76A] bg-[#FFF6E5]' 
-                  : 'border-gray-200 hover:border-[#CBA76A]'
+                  ? 'border-[#53B16F] bg-[#53B16F]/10' 
+                  : 'border-gray-200 hover:border-[#53B16F]'
               }`}
             >
               <Icon name={option.icon} className="text-2xl" />
-              <span className="text-[#3E2C1E]">{option.text}</span>
+              <span className="text-[#53B16F]">{option.text}</span>
             </motion.button>
           ))}
         </div>
@@ -212,17 +212,17 @@ const OnboardingPage = () => {
               }}
               className={`w-full p-4 border-2 rounded-xl text-left flex items-center space-x-3 transition-all ${
                 userData.learningStyle.includes(option.value)
-                  ? 'border-[#CBA76A] bg-[#FFF6E5]' 
-                  : 'border-gray-200 hover:border-[#CBA76A]'
+                  ? 'border-[#53B16F] bg-[#53B16F]/10' 
+                  : 'border-gray-200 hover:border-[#53B16F]'
               }`}
             >
               <div className="flex items-center justify-center w-6 h-6 border-2 rounded border-current">
                 {userData.learningStyle.includes(option.value) && (
-                  <div className="w-3 h-3 bg-[#CBA76A] rounded-sm" />
+                  <div className="w-3 h-3 bg-[#53B16F] rounded-sm" />
                 )}
               </div>
               <Icon name={option.icon} className="text-xl" />
-              <span className="text-[#3E2C1E]">{option.text}</span>
+              <span className="text-[#53B16F]">{option.text}</span>
             </motion.button>
           ))}
         </div>
@@ -235,9 +235,9 @@ const OnboardingPage = () => {
       content: (
         <div className="space-y-4">
           {[
-            { icon: "teacher1" as IconName, name: "Leila", desc: "Patiente et encourageante", color: "#CBA76A" },
-            { icon: "teacher2" as IconName, name: "Omar", desc: "Dynamique et passionné", color: "#8B5E3C" },
-            { icon: "teacher3" as IconName, name: "Fatima", desc: "Traditionnelle et rigoureuse", color: "#3E2C1E" }
+            { icon: "teacher1" as IconName, name: "Leila", desc: "Patiente et encourageante", color: "#53B16F" },
+            { icon: "teacher2" as IconName, name: "Omar", desc: "Dynamique et passionné", color: "#53B16F" },
+            { icon: "teacher3" as IconName, name: "Fatima", desc: "Traditionnelle et rigoureuse", color: "#53B16F" }
           ].map((teacher) => (
             <motion.button
               key={teacher.name}
@@ -246,14 +246,14 @@ const OnboardingPage = () => {
               onClick={() => setUserData({...userData, teacher: teacher.name})}
               className={`w-full p-4 border-2 rounded-xl text-left flex items-center space-x-4 transition-all ${
                 userData.teacher === teacher.name
-                  ? 'border-[#CBA76A] bg-[#FFF6E5]' 
-                  : 'border-gray-200 hover:border-[#CBA76A]'
+                  ? 'border-[#53B16F] bg-[#53B16F]/10' 
+                  : 'border-gray-200 hover:border-[#53B16F]'
               }`}
             >
               <Icon name={teacher.icon} className="text-3xl" />
               <div>
-                <div className="font-semibold text-[#3E2C1E]">{teacher.name}</div>
-                <div className="text-sm text-[#8B5E3C]">{teacher.desc}</div>
+                <div className="font-semibold text-[#53B16F]">{teacher.name}</div>
+                <div className="text-sm text-[#53B16F]">{teacher.desc}</div>
               </div>
             </motion.button>
           ))}
@@ -268,7 +268,7 @@ const OnboardingPage = () => {
     } else {
       // Sauvegarde des données et redirection
       console.log("Données utilisateur:", userData);
-      localStorage.setItem('arabikaUser', JSON.stringify(userData));
+      localStorage.setItem('fisabilUser', JSON.stringify(userData));
       navigate('/home');
     }
   };
@@ -290,9 +290,20 @@ const OnboardingPage = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF6E5] to-[#F8F0E0] flex items-center justify-center p-4">
-      <div className="bg-white rounded-3xl shadow-xl p-6 w-full max-w-md">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
+      <div className="bg-white rounded-3xl shadow-xl p-6 w-full max-w-md border border-[#53B16F]/20">
         
+        {/* Logo Fisabil */}
+        <div className="text-center mb-2">
+          <div className="w-16 h-16 mx-auto mb-2">
+            <img 
+              src="/fisa.jpeg" 
+              alt="Fisabil"
+              className="w-full h-full object-cover rounded-full border-2 border-[#53B16F]"
+            />
+          </div>
+        </div>
+
         {/* Indicateur de progression */}
         <div className="flex justify-center mb-6">
           <div className="flex space-x-1">
@@ -301,9 +312,9 @@ const OnboardingPage = () => {
                 key={index}
                 className={`w-2 h-2 rounded-full transition-all ${
                   index === currentStep 
-                    ? 'bg-[#CBA76A] w-6' 
+                    ? 'bg-[#53B16F] w-6' 
                     : index < currentStep 
-                    ? 'bg-[#8B5E3C]' 
+                    ? 'bg-[#53B16F]' 
                     : 'bg-gray-300'
                 }`}
               />
@@ -329,12 +340,12 @@ const OnboardingPage = () => {
             </motion.div>
             
             {/* Titre */}
-            <h2 className="text-2xl font-bold text-[#3E2C1E] mb-2">
+            <h2 className="text-2xl font-bold text-[#53B16F] mb-2">
               {steps[currentStep].title}
             </h2>
             
             {/* Sous-titre */}
-            <p className="text-[#8B5E3C] mb-6">
+            <p className="text-[#53B16F] mb-6">
               {steps[currentStep].subtitle}
             </p>
 
@@ -353,7 +364,7 @@ const OnboardingPage = () => {
             className={`px-6 py-3 rounded-xl font-medium transition-all ${
               currentStep === 0 
                 ? 'text-gray-400 cursor-not-allowed' 
-                : 'text-[#8B5E3C] hover:bg-[#FFF6E5]'
+                : 'text-[#53B16F] hover:bg-[#53B16F]/10'
             }`}
           >
             Retour
@@ -366,7 +377,7 @@ const OnboardingPage = () => {
             disabled={!isStepValid()}
             className={`px-8 py-3 rounded-xl font-medium shadow-lg transition-all ${
               isStepValid()
-                ? 'bg-gradient-to-r from-[#CBA76A] to-[#8B5E3C] text-white hover:shadow-xl'
+                ? 'bg-gradient-to-r from-[#53B16F] to-[#53B16F] text-white hover:shadow-xl'
                 : 'bg-gray-300 text-gray-500 cursor-not-allowed'
             }`}
           >

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom'; // ← Ajouter useNavigate
+import { Link, useNavigate } from 'react-router-dom';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -10,91 +10,95 @@ const RegisterPage = () => {
     confirmPassword: ''
   });
   
-  const navigate = useNavigate(); // ← Ajouter cette ligne
+  const navigate = useNavigate();
 
   const handleSubmit = (e: { preventDefault: () => void; }) => {
     e.preventDefault();
     // Simulation inscription - redirection vers onboarding
     console.log('Inscription:', formData);
     
-    navigate('/onboarding'); // ← CORRECTION : utiliser navigate()
+    navigate('/onboarding');
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-[#FFF6E5] to-[#F8F0E0] flex items-center justify-center p-4">
+    <div className="min-h-screen bg-white flex items-center justify-center p-4">
       <motion.div
         initial={{ opacity: 0, y: 30 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8 }}
-        className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md"
+        className="bg-white rounded-2xl shadow-lg p-8 w-full max-w-md border border-[#53B16F]/20"
       >
-        {/* En-tête */}
+        {/* En-tête avec Logo */}
         <div className="text-center mb-8">
           <motion.div
             initial={{ scale: 0 }}
             animate={{ scale: 1 }}
             transition={{ delay: 0.2, duration: 0.5 }}
-            className="w-16 h-16 mx-auto bg-gradient-to-br from-[#CBA76A] to-[#8B5E3C] rounded-2xl flex items-center justify-center mb-4"
+            className="w-20 h-20 mx-auto mb-4"
           >
-            <span className="text-2xl text-white font-bold">ا</span>
+            <img 
+              src="/fisa.jpeg" 
+              alt="Fisabil"
+              className="w-full h-full object-cover rounded-full border-4 border-[#53B16F] shadow-lg"
+            />
           </motion.div>
-          <h1 className="text-3xl font-bold text-[#3E2C1E]">Rejoignez-nous</h1>
-          <p className="text-[#8B5E3C] mt-2">Commencez votre voyage arabe</p>
+          <h1 className="text-3xl font-bold text-[#53B16F]">Rejoignez-nous</h1>
+          <p className="text-[#53B16F] mt-2">Commencez votre voyage arabe</p>
         </div>
 
         {/* Formulaire */}
         <form onSubmit={handleSubmit} className="space-y-6">
           <div>
-            <label className="block text-[#3E2C1E] text-sm font-medium mb-2">
+            <label className="block text-[#53B16F] text-sm font-medium mb-2">
               Nom complet
             </label>
             <input
               type="text"
               value={formData.name}
               onChange={(e) => setFormData({...formData, name: e.target.value})}
-              className="w-full px-4 py-3 border border-[#CBA76A] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CBA76A] focus:border-transparent"
+              className="w-full px-4 py-3 border border-[#53B16F] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#53B16F] focus:border-transparent"
               placeholder="Votre nom"
               required
             />
           </div>
 
           <div>
-            <label className="block text-[#3E2C1E] text-sm font-medium mb-2">
+            <label className="block text-[#53B16F] text-sm font-medium mb-2">
               Email
             </label>
             <input
               type="email"
               value={formData.email}
               onChange={(e) => setFormData({...formData, email: e.target.value})}
-              className="w-full px-4 py-3 border border-[#CBA76A] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CBA76A] focus:border-transparent"
+              className="w-full px-4 py-3 border border-[#53B16F] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#53B16F] focus:border-transparent"
               placeholder="votre@email.com"
               required
             />
           </div>
 
           <div>
-            <label className="block text-[#3E2C1E] text-sm font-medium mb-2">
+            <label className="block text-[#53B16F] text-sm font-medium mb-2">
               Mot de passe
             </label>
             <input
               type="password"
               value={formData.password}
               onChange={(e) => setFormData({...formData, password: e.target.value})}
-              className="w-full px-4 py-3 border border-[#CBA76A] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CBA76A] focus:border-transparent"
+              className="w-full px-4 py-3 border border-[#53B16F] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#53B16F] focus:border-transparent"
               placeholder="••••••••"
               required
             />
           </div>
 
           <div>
-            <label className="block text-[#3E2C1E] text-sm font-medium mb-2">
+            <label className="block text-[#53B16F] text-sm font-medium mb-2">
               Confirmer le mot de passe
             </label>
             <input
               type="password"
               value={formData.confirmPassword}
               onChange={(e) => setFormData({...formData, confirmPassword: e.target.value})}
-              className="w-full px-4 py-3 border border-[#CBA76A] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#CBA76A] focus:border-transparent"
+              className="w-full px-4 py-3 border border-[#53B16F] rounded-xl focus:outline-none focus:ring-2 focus:ring-[#53B16F] focus:border-transparent"
               placeholder="••••••••"
               required
             />
@@ -104,7 +108,7 @@ const RegisterPage = () => {
             whileHover={{ scale: 1.02 }}
             whileTap={{ scale: 0.98 }}
             type="submit"
-            className="w-full bg-gradient-to-r from-[#CBA76A] to-[#8B5E3C] text-white py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-shadow"
+            className="w-full bg-gradient-to-r from-[#53B16F] to-[#53B16F] text-white py-3 rounded-xl font-medium shadow-lg hover:shadow-xl transition-shadow"
           >
             Créer mon compte
           </motion.button>
@@ -112,9 +116,9 @@ const RegisterPage = () => {
 
         {/* Lien vers connexion */}
         <div className="text-center mt-6">
-          <p className="text-[#8B5E3C]">
+          <p className="text-[#53B16F]">
             Déjà un compte ?{' '}
-            <Link to="/login" className="text-[#CBA76A] font-medium hover:underline">
+            <Link to="/login" className="text-[#53B16F] font-medium hover:underline">
               Se connecter
             </Link>
           </p>
@@ -122,7 +126,7 @@ const RegisterPage = () => {
 
         {/* Élément décoratif */}
         <div className="text-center mt-8 opacity-30">
-          <span className="text-[#8B5E3C] text-2xl">﷽</span>
+          <span className="text-[#53B16F] text-2xl">﷽</span>
         </div>
       </motion.div>
     </div>
