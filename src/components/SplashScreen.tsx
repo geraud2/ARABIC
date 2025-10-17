@@ -27,10 +27,10 @@ const SplashScreen = () => {
         >
           {/* Logo Fisabil avec bord arrondi */}
           <img 
-            src="/fisa.jpeg" 
-            alt="Fisabil"
-            className="w-40 h-40 mx-auto mb-4 object-cover rounded-full border-4 border-[#53B16F] shadow-lg"
-          />
+  src="https://images.unsplash.com/photo-1555066931-4365d14bab8c?w=200&h=200&fit=crop" 
+  alt="Fisabil"
+  className="w-32 h-32 object-cover rounded-full border-4 border-[#53B16F]"
+/>
           
           {/* Étoile arabe au-dessus du logo */}
           <motion.div
@@ -110,7 +110,7 @@ const SplashScreen = () => {
         className="absolute bottom-8 left-1/2 transform -translate-x-1/2 w-full text-center"
       >
         <p className="text-[#53B16F] text-lg font-arabic px-4">
-          بِسْمِ ٱللَّٰهِ ٱلرَّحْمَٰنِ ٱلرَّحِيمِ
+         
         </p>
         <p className="text-[#53B16F] text-sm mt-2">
           Au nom d'Allah, le Tout Miséricordieux, le Très Miséricordieux
