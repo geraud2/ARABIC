@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, Home, Crown, Check, Star, Zap, Lock, Volume2, Scan, BookOpen } from 'lucide-react';
+import { ArrowLeft, Home, Crown, Check, Star, Zap, Lock, Volume2, Scan, BookOpen, Shield, Clock } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import BottomNav from '../components/BottomNav';
 
@@ -12,7 +12,8 @@ const SubscriptionPage = () => {
   // Simulation de l'état d'abonnement de l'utilisateur
   const userSubscription = {
     plan: 'free',
-    trialDaysLeft: 7,
+    trialDaysLeft: 15, // ← 15 jours d'essai gratuit
+    trialTotalDays: 15, // ← Total de 15 jours
     scanLimit: 3,
     scansUsed: 1
   };
@@ -23,17 +24,17 @@ const SubscriptionPage = () => {
       name: 'Gratuit',
       price: '0€',
       period: 'toujours',
-      description: 'Découverte de Fisabil',
+      description: 'Parfait pour commencer',
       icon: Star,
-      color: 'from-[#53B16F] to-[#53B16F]',
+      color: 'from-gray-400 to-gray-500',
       features: [
-        { text: '3 scans de texte par mois', included: true },
-        { text: 'Vocabulaire limité (50 mots)', included: true },
+        { text: '3 scans par mois', included: true },
+        { text: '50 mots de vocabulaire', included: true },
         { text: 'Chat IA basique', included: true },
         { text: 'Synthèse vocale standard', included: true },
         { text: 'Scans illimités', included: false },
         { text: 'Vocabulaire illimité', included: false },
-        { text: 'Chat IA avancé', included: false },
+        { text: 'IA conversation avancée', included: false },
         { text: 'Synthèse vocale HD', included: false },
         { text: 'Export des données', included: false },
         { text: 'Support prioritaire', included: false }
@@ -52,14 +53,14 @@ const SubscriptionPage = () => {
       features: [
         { text: 'Scans illimités', included: true },
         { text: 'Vocabulaire illimité', included: true },
-        { text: 'Chat IA avancé', included: true },
+        { text: 'IA conversation avancée', included: true },
         { text: 'Synthèse vocale HD', included: true },
         { text: 'Export des données', included: true },
         { text: 'Support prioritaire', included: true },
         { text: 'Nouveautés en avant-première', included: true },
         { text: 'Sauvegarde cloud', included: true }
       ],
-      cta: 'Essayer 7 jours gratuitement',
+      cta: 'Essayer 15 jours gratuitement', // ← 15 jours ici aussi
       popular: true
     }
   ];
@@ -67,31 +68,31 @@ const SubscriptionPage = () => {
   const features = [
     {
       icon: Scan,
-      title: 'Scan Illimité',
-      description: 'Scanne autant de textes arabes que tu veux',
+      title: 'Scan de Textes',
+      description: 'Scanne des textes arabes',
       free: '3/mois',
       premium: 'Illimité'
     },
     {
       icon: BookOpen,
-      title: 'Vocabulaire Personnalisé',
-      description: 'Crée ton dictionnaire personnel',
+      title: 'Vocabulaire',
+      description: 'Dictionnaire personnel',
       free: '50 mots',
       premium: 'Illimité'
     },
     {
       icon: Volume2,
-      title: 'Synthèse Vocale Avancée',
-      description: 'Écoute la prononciation parfaite',
+      title: 'Synthèse Vocale',
+      description: 'Prononciation audio',
       free: 'Standard',
-      premium: 'HD Qualité'
+      premium: 'HD'
     },
     {
       icon: Zap,
-      title: 'IA Conversationnelle',
-      description: 'Discute de tes textes avec notre IA',
+      title: 'Assistant IA',
+      description: 'Aide à la conversation',
       free: 'Basique',
-      premium: 'Avancée'
+      premium: 'Avancé'
     }
   ];
 
@@ -113,24 +114,27 @@ const SubscriptionPage = () => {
 
   const currentPlan = plans.find(plan => plan.id === userSubscription.plan);
 
+  // Calcul du pourcentage de progression de l'essai
+  const trialProgress = ((userSubscription.trialTotalDays - userSubscription.trialDaysLeft) / userSubscription.trialTotalDays) * 100;
+
   return (
-    <div className="min-h-screen bg-white pb-16">
+    <div className="min-h-screen bg-white pb-16 safe-area-bottom">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-[#53B16F]/20 sticky top-0 z-10">
+      <div className="bg-white shadow-sm border-b border-[#53B16F]/20 sticky top-0 z-10 safe-area-top">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
           <button
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-[#53B16F] hover:text-[#53B16F]/80 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span className="text-sm font-medium">Retour</span>
+            <span className="text-sm font-medium hidden xs:inline">Retour</span>
           </button>
 
           <div className="text-center">
             <h1 className="text-lg font-semibold text-[#53B16F]">
-              Abonnement Fisabil
+              Abonnement
             </h1>
-            <p className="text-xs text-[#53B16F]/70">Choisis ton expérience</p>
+            <p className="text-xs text-gray-600 hidden xs:block">Choisis ton expérience</p>
           </div>
 
           <button
@@ -143,24 +147,28 @@ const SubscriptionPage = () => {
       </div>
 
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-        {/* Bannière d'essai gratuit */}
+        {/* Bannière d'essai gratuit - 15 JOURS */}
         {userSubscription.trialDaysLeft > 0 && (
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="bg-gradient-to-r from-[#53B16F] to-[#53B16F] rounded-3xl p-6 text-white text-center shadow-xl"
+            className="bg-gradient-to-r from-[#53B16F] to-[#53B16F] rounded-2xl p-4 text-white shadow-lg"
           >
-            <Crown className="w-12 h-12 mx-auto mb-3 text-white/80" />
-            <h2 className="text-xl font-bold mb-2">Essai Premium Gratuit</h2>
-            <p className="text-white/80 mb-3">
-              Il te reste {userSubscription.trialDaysLeft} jours pour tester toutes les fonctionnalités Premium
-            </p>
-            <div className="w-full bg-white/20 rounded-full h-3">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${((30 - userSubscription.trialDaysLeft) / 30) * 100}%` }}
-                className="h-full bg-white rounded-full"
-              />
+            <div className="flex items-center gap-3">
+              <Crown className="w-8 h-8 text-white/80 flex-shrink-0" />
+              <div className="flex-1">
+                <h2 className="font-bold text-sm">Essai Premium 15 Jours</h2>
+                <p className="text-white/80 text-xs">
+                  {userSubscription.trialDaysLeft} jours restants sur 15
+                </p>
+                <div className="w-full bg-white/20 rounded-full h-2 mt-2">
+                  <motion.div
+                    initial={{ width: 0 }}
+                    animate={{ width: `${trialProgress}%` }}
+                    className="h-full bg-white rounded-full"
+                  />
+                </div>
+              </div>
             </div>
           </motion.div>
         )}
@@ -171,26 +179,30 @@ const SubscriptionPage = () => {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.1 }}
-            className="bg-white rounded-2xl p-4 shadow-lg border-2 border-[#53B16F]"
+            className="bg-white rounded-xl p-4 shadow-sm border border-[#53B16F]"
           >
-            <div className="flex items-center gap-3 mb-3">
-              <div className="w-10 h-10 bg-[#53B16F] rounded-xl flex items-center justify-center">
-                <currentPlan.icon className="w-5 h-5 text-white" />
+            <div className="flex items-center gap-3">
+              <div className="w-8 h-8 bg-[#53B16F] rounded-lg flex items-center justify-center flex-shrink-0">
+                <currentPlan.icon className="w-4 h-4 text-white" />
               </div>
-              <div>
-                <h3 className="font-semibold text-[#53B16F]">Plan Actuel</h3>
-                <p className="text-sm text-[#53B16F]/70">{currentPlan.name}</p>
+              <div className="flex-1">
+                <h3 className="font-semibold text-[#53B16F] text-sm">Plan Actuel</h3>
+                <p className="text-gray-600 text-xs">{currentPlan.name}</p>
+                {userSubscription.trialDaysLeft > 0 && (
+                  <p className="text-[#53B16F] text-xs font-medium">
+                    Essai gratuit • {userSubscription.trialDaysLeft} jours restants
+                  </p>
+                )}
               </div>
+              {userSubscription.plan === 'free' && (
+                <div className="text-right">
+                  <span className="text-[#53B16F] font-semibold text-sm">
+                    {userSubscription.scansUsed}/{userSubscription.scanLimit}
+                  </span>
+                  <p className="text-gray-600 text-xs">scans</p>
+                </div>
+              )}
             </div>
-            
-            {userSubscription.plan === 'free' && (
-              <div className="flex items-center justify-between text-sm">
-                <span className="text-[#53B16F]">Scans utilisés</span>
-                <span className="text-[#53B16F] font-semibold">
-                  {userSubscription.scansUsed}/{userSubscription.scanLimit}
-                </span>
-              </div>
-            )}
           </motion.div>
         )}
 
@@ -199,41 +211,38 @@ const SubscriptionPage = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="space-y-4"
+          className="space-y-3"
         >
-          <h3 className="text-lg font-semibold text-[#53B16F] text-center">
-            Compare les fonctionnalités
+          <h3 className="text-base font-semibold text-gray-800 text-center">
+            Comparaison
           </h3>
 
-          <div className="space-y-3">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
                 <motion.div
                   key={feature.title}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
+                  initial={{ opacity: 0, scale: 0.9 }}
+                  animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: 0.3 + index * 0.1 }}
-                  className="bg-white rounded-2xl p-4 shadow-lg border border-[#53B16F]/20"
+                  className="bg-white rounded-xl p-3 shadow-sm border border-gray-200"
                 >
-                  <div className="flex items-center gap-3 mb-3">
-                    <div className="w-10 h-10 bg-[#53B16F]/10 rounded-xl flex items-center justify-center">
-                      <Icon className="w-5 h-5 text-[#53B16F]" />
+                  <div className="flex items-center gap-2 mb-2">
+                    <div className="w-6 h-6 bg-[#53B16F]/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                      <Icon className="w-3 h-3 text-[#53B16F]" />
                     </div>
-                    <div className="flex-1">
-                      <h4 className="font-semibold text-[#53B16F] text-sm">{feature.title}</h4>
-                      <p className="text-xs text-[#53B16F]/70">{feature.description}</p>
-                    </div>
+                    <h4 className="font-semibold text-gray-800 text-xs">{feature.title}</h4>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 text-sm">
-                    <div className="text-center p-2 bg-[#53B16F]/5 rounded-lg">
-                      <div className="text-[#53B16F] font-semibold">Gratuit</div>
-                      <div className="text-[#53B16F]/70 text-xs">{feature.free}</div>
+                  <div className="space-y-1 text-xs">
+                    <div className="flex justify-between items-center">
+                      <span className="text-gray-600">Gratuit:</span>
+                      <span className="text-gray-800 font-medium">{feature.free}</span>
                     </div>
-                    <div className="text-center p-2 bg-[#53B16F] rounded-lg">
-                      <div className="text-white font-semibold">Premium</div>
-                      <div className="text-white/80 text-xs">{feature.premium}</div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-[#53B16F]">Premium:</span>
+                      <span className="text-[#53B16F] font-semibold">{feature.premium}</span>
                     </div>
                   </div>
                 </motion.div>
@@ -249,7 +258,7 @@ const SubscriptionPage = () => {
           transition={{ delay: 0.4 }}
           className="space-y-4"
         >
-          <h3 className="text-lg font-semibold text-[#53B16F] text-center">
+          <h3 className="text-base font-semibold text-gray-800 text-center">
             Choisis ton plan
           </h3>
 
@@ -265,47 +274,46 @@ const SubscriptionPage = () => {
                   initial={{ opacity: 0, y: 20 }}
                   animate={{ opacity: 1, y: 0 }}
                   transition={{ delay: 0.5 + index * 0.1 }}
-                  whileHover={{ scale: 1.02 }}
-                  className={`relative rounded-3xl p-6 cursor-pointer transition-all ${
+                  whileHover={{ scale: 1.01 }}
+                  className={`relative rounded-xl p-4 cursor-pointer transition-all ${
                     isSelected
-                      ? 'bg-gradient-to-br from-[#53B16F] to-[#53B16F] text-white shadow-xl border-2 border-[#53B16F]'
-                      : 'bg-white text-[#53B16F] shadow-lg border border-[#53B16F]/20'
+                      ? 'bg-gradient-to-br from-[#53B16F] to-[#53B16F] text-white shadow-lg border-2 border-[#53B16F]'
+                      : 'bg-white text-gray-800 shadow-sm border border-gray-200'
                   } ${isCurrent ? 'ring-2 ring-[#53B16F]' : ''}`}
                   onClick={() => setSelectedPlan(plan.id as 'free' | 'premium')}
                 >
                   {plan.popular && (
-                    <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-[#53B16F] text-white px-3 py-1 rounded-full text-xs font-semibold">
-                      Le Plus Populaire
+                    <div className="absolute -top-2 left-1/2 transform -translate-x-1/2 bg-[#53B16F] text-white px-2 py-1 rounded-full text-xs font-semibold whitespace-nowrap">
+                      Populaire
                     </div>
                   )}
 
                   {isCurrent && (
-                    <div className="absolute -top-2 right-4 bg-white text-[#53B16F] px-2 py-1 rounded-full text-xs font-semibold border border-[#53B16F]">
+                    <div className="absolute -top-2 right-2 bg-white text-[#53B16F] px-2 py-1 rounded-full text-xs font-semibold border border-[#53B16F]">
                       Actuel
                     </div>
                   )}
 
-                  <div className="text-center mb-4">
-                    <Icon className={`w-8 h-8 mx-auto mb-2 ${isSelected ? 'text-white' : 'text-[#53B16F]'}`} />
-                    <h3 className="text-xl font-bold">{plan.name}</h3>
-                    <div className="flex items-baseline justify-center gap-1 mt-1">
-                      <span className="text-2xl font-bold">{plan.price}</span>
-                      <span className="text-sm opacity-80">/{plan.period}</span>
+                  <div className="flex items-center gap-3 mb-3">
+                    <Icon className={`w-6 h-6 ${isSelected ? 'text-white' : 'text-[#53B16F]'}`} />
+                    <div>
+                      <h3 className="font-bold text-sm">{plan.name}</h3>
+                      <div className="flex items-baseline gap-1">
+                        <span className="text-lg font-bold">{plan.price}</span>
+                        <span className="text-xs opacity-80">/{plan.period}</span>
+                      </div>
                     </div>
-                    <p className={`text-sm mt-1 ${isSelected ? 'text-white/80' : 'text-[#53B16F]/70'}`}>
-                      {plan.description}
-                    </p>
                   </div>
 
-                  <div className="space-y-2 mb-4">
-                    {plan.features.slice(0, 4).map((feature, featureIndex) => (
-                      <div key={featureIndex} className="flex items-center gap-2 text-sm">
+                  <div className="space-y-1 mb-3">
+                    {plan.features.slice(0, 3).map((feature, featureIndex) => (
+                      <div key={featureIndex} className="flex items-center gap-2 text-xs">
                         {feature.included ? (
-                          <Check className={`w-4 h-4 ${isSelected ? 'text-white' : 'text-[#53B16F]'}`} />
+                          <Check className={`w-3 h-3 ${isSelected ? 'text-white' : 'text-[#53B16F]'}`} />
                         ) : (
-                          <Lock className="w-4 h-4 text-gray-400" />
+                          <Lock className="w-3 h-3 text-gray-400" />
                         )}
-                        <span className={feature.included ? (isSelected ? 'text-white' : 'text-[#53B16F]') : 'text-gray-400'}>
+                        <span className={feature.included ? (isSelected ? 'text-white' : 'text-gray-700') : 'text-gray-400'}>
                           {feature.text}
                         </span>
                       </div>
@@ -313,14 +321,14 @@ const SubscriptionPage = () => {
                   </div>
 
                   <motion.button
-                    whileHover={{ scale: isCurrent ? 1 : 1.05 }}
-                    whileTap={{ scale: isCurrent ? 1 : 0.95 }}
+                    whileHover={{ scale: isCurrent ? 1 : 1.02 }}
+                    whileTap={{ scale: isCurrent ? 1 : 0.98 }}
                     onClick={(e) => {
                       e.stopPropagation();
                       handleSubscription(plan.id);
                     }}
                     disabled={isCurrent || isProcessing}
-                    className={`w-full py-3 rounded-xl font-semibold transition-all ${
+                    className={`w-full py-2 rounded-lg font-semibold text-sm transition-all ${
                       isSelected
                         ? 'bg-white text-[#53B16F] hover:bg-white/90'
                         : 'bg-[#53B16F] text-white hover:bg-[#53B16F]/90'
@@ -328,7 +336,7 @@ const SubscriptionPage = () => {
                   >
                     {isProcessing ? (
                       <div className="flex items-center justify-center gap-2">
-                        <div className="w-4 h-4 border-2 border-current border-t-transparent rounded-full animate-spin" />
+                        <div className="w-3 h-3 border-2 border-current border-t-transparent rounded-full animate-spin" />
                         Traitement...
                       </div>
                     ) : isCurrent ? (
@@ -343,18 +351,32 @@ const SubscriptionPage = () => {
           </div>
         </motion.div>
 
-        {/* Garantie */}
+        {/* Garanties */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.8 }}
+          className="grid grid-cols-2 gap-3 text-center"
+        >
+          <div className="flex items-center gap-2 justify-center text-xs text-gray-600">
+            <Shield className="w-3 h-3 text-[#53B16F]" />
+            <span>30 jours garantie</span>
+          </div>
+          <div className="flex items-center gap-2 justify-center text-xs text-gray-600">
+            <Clock className="w-3 h-3 text-[#53B16F]" />
+            <span>Annule anytime</span>
+          </div>
+        </motion.div>
+
+        {/* Information essai 15 jours */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1 }}
           className="text-center"
         >
-          <p className="text-sm text-[#53B16F]/70">
-            ✅ Garantie satisfait ou remboursé sous 30 jours
-          </p>
-          <p className="text-xs text-[#53B16F]/50 mt-1">
-            Résilie à tout moment • Aucun engagement
+          <p className="text-xs text-gray-500">
+            ✅ <strong>15 jours d'essai gratuit</strong> - Aucune carte requise pour commencer
           </p>
         </motion.div>
       </div>

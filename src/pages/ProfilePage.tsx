@@ -1,110 +1,201 @@
-import React from 'react';
+// pages/ProfilePage.tsx
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { ArrowLeft, BarChart3, Target, Clock, BookOpen, TrendingUp, Home, Scan } from 'lucide-react';
+import { ArrowLeft, Home, User, Settings, Globe, Bell, Shield, HelpCircle } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect, useState } from 'react';
 import BottomNav from '../components/BottomNav';
+import LanguageSelector from '../components/LanguageSelector';
 
 const ProfilePage = () => {
   const navigate = useNavigate();
-  const [userStats, setUserStats] = useState({
-    totalWords: 0,
-    masteredWords: 0,
-    scannedTexts: 0,
-    studyTime: 0,
-    dailyGoal: 20,
-    streak: 0
+  const [userData, setUserData] = useState({
+    name: '',
+    email: '',
+    language: 'fr',
+    teacher: '',
+    subscription: 'free',
+    trialDaysLeft: 15
   });
 
+  // Textes multilingues
+  const translations = {
+    fr: {
+      title: 'Profil',
+      subtitle: 'Gère ton compte',
+      sections: {
+        account: 'Compte',
+        preferences: 'Préférences',
+        support: 'Support'
+      },
+      fields: {
+        name: 'Nom',
+        email: 'Email',
+        teacher: 'Professeur',
+        subscription: 'Abonnement',
+        language: 'Langue'
+      },
+      buttons: {
+        save: 'Sauvegarder',
+        edit: 'Modifier'
+      },
+      menu: {
+        notifications: 'Notifications',
+        privacy: 'Confidentialité',
+        help: 'Aide',
+        about: 'À propos'
+      }
+    },
+    en: {
+      title: 'Profile',
+      subtitle: 'Manage your account',
+      sections: {
+        account: 'Account',
+        preferences: 'Preferences',
+        support: 'Support'
+      },
+      fields: {
+        name: 'Name',
+        email: 'Email',
+        teacher: 'Teacher',
+        subscription: 'Subscription',
+        language: 'Language'
+      },
+      buttons: {
+        save: 'Save',
+        edit: 'Edit'
+      },
+      menu: {
+        notifications: 'Notifications',
+        privacy: 'Privacy',
+        help: 'Help',
+        about: 'About'
+      }
+    },
+    es: {
+      title: 'Perfil',
+      subtitle: 'Gestiona tu cuenta',
+      sections: {
+        account: 'Cuenta',
+        preferences: 'Preferencias',
+        support: 'Soporte'
+      },
+      fields: {
+        name: 'Nombre',
+        email: 'Correo',
+        teacher: 'Profesor',
+        subscription: 'Suscripción',
+        language: 'Idioma'
+      },
+      buttons: {
+        save: 'Guardar',
+        edit: 'Editar'
+      },
+      menu: {
+        notifications: 'Notificaciones',
+        privacy: 'Privacidad',
+        help: 'Ayuda',
+        about: 'Acerca de'
+      }
+    },
+    de: {
+      title: 'Profil',
+      subtitle: 'Konto verwalten',
+      sections: {
+        account: 'Konto',
+        preferences: 'Einstellungen',
+        support: 'Support'
+      },
+      fields: {
+        name: 'Name',
+        email: 'E-Mail',
+        teacher: 'Lehrer',
+        subscription: 'Abonnement',
+        language: 'Sprache'
+      },
+      buttons: {
+        save: 'Speichern',
+        edit: 'Bearbeiten'
+      },
+      menu: {
+        notifications: 'Benachrichtigungen',
+        privacy: 'Datenschutz',
+        help: 'Hilfe',
+        about: 'Über'
+      }
+    },
+    ar: {
+      title: 'الملف الشخصي',
+      subtitle: 'إدارة حسابك',
+      sections: {
+        account: 'الحساب',
+        preferences: 'التفضيلات',
+        support: 'الدعم'
+      },
+      fields: {
+        name: 'الاسم',
+        email: 'البريد الإلكتروني',
+        teacher: 'المعلم',
+        subscription: 'الاشتراك',
+        language: 'اللغة'
+      },
+      buttons: {
+        save: 'حفظ',
+        edit: 'تعديل'
+      },
+      menu: {
+        notifications: 'الإشعارات',
+        privacy: 'الخصوصية',
+        help: 'المساعدة',
+        about: 'حول'
+      }
+    }
+  };
+
+  const t = translations[userData.language as keyof typeof translations] || translations.fr;
+
   useEffect(() => {
-    // Charger les statistiques Fisabil
-    const savedVocabulary = localStorage.getItem('fisabil_vocabulary');
-    const savedTexts = localStorage.getItem('fisabil_scanned_texts');
-    const userData = localStorage.getItem('fisabilUser');
-    
-    let totalWords = 0;
-    let masteredWords = 0;
-    let scannedTexts = 0;
-
-    if (savedVocabulary) {
-      const vocabulary = JSON.parse(savedVocabulary);
-      totalWords = vocabulary.length;
-      masteredWords = vocabulary.filter((word: any) => word.masteryLevel >= 0.8).length;
+    // Charger les données utilisateur
+    const savedUser = localStorage.getItem('fisabilUser');
+    if (savedUser) {
+      setUserData(JSON.parse(savedUser));
     }
-
-    if (savedTexts) {
-      scannedTexts = JSON.parse(savedTexts).length;
-    }
-
-    setUserStats({
-      totalWords,
-      masteredWords,
-      scannedTexts,
-      studyTime: totalWords * 2, // Estimation : 2min par mot
-      dailyGoal: 20,
-      streak: 3 // Exemple de série
-    });
   }, []);
 
-  const masteryPercentage = userStats.totalWords > 0 
-    ? Math.round((userStats.masteredWords / userStats.totalWords) * 100) 
-    : 0;
+  const handleLanguageChange = (newLanguage: string) => {
+    const updatedUser = { ...userData, language: newLanguage };
+    setUserData(updatedUser);
+    localStorage.setItem('fisabilUser', JSON.stringify(updatedUser));
+    
+    // Forcer le rechargement pour appliquer la nouvelle langue
+    window.location.reload();
+  };
 
-  const statsCards = [
-    { 
-      icon: BookOpen, 
-      label: 'Mots appris', 
-      value: userStats.totalWords,
-      subtitle: 'Vocabulaire personnel',
-      color: '#53B16F'
-    },
-    { 
-      icon: Target, 
-      label: 'Maîtrisés', 
-      value: userStats.masteredWords,
-      subtitle: `${masteryPercentage}% de maîtrise`,
-      color: '#53B16F' 
-    },
-    { 
-      icon: Scan, 
-      label: 'Textes scannés', 
-      value: userStats.scannedTexts,
-      subtitle: 'Documents analysés',
-      color: '#53B16F'
-    },
-    { 
-      icon: Clock, 
-      label: 'Temps d\'étude', 
-      value: `${userStats.studyTime}min`,
-      subtitle: 'Cumulé',
-      color: '#53B16F' 
-    }
-  ];
-
-  const progressItems = [
-    { label: 'Objectif quotidien', current: 8, total: userStats.dailyGoal, color: '#53B16F' },
-    { label: 'Série actuelle', current: userStats.streak, total: 7, color: '#53B16F' },
-    { label: 'Mots à réviser', current: Math.max(0, userStats.totalWords - userStats.masteredWords), total: userStats.totalWords, color: '#53B16F' }
-  ];
+  const handleSaveProfile = () => {
+    localStorage.setItem('fisabilUser', JSON.stringify(userData));
+    // Afficher un message de succès
+    alert(t.buttons.save === 'Sauvegarder' ? 'Profil sauvegardé !' : 'Profile saved!');
+  };
 
   return (
-    <div className="min-h-screen bg-white pb-16">
+    <div className="min-h-screen bg-white pb-16 safe-area-bottom">
       {/* Header */}
-      <div className="bg-white shadow-sm border-b border-[#53B16F]/20 sticky top-0 z-10">
+      <div className="bg-white shadow-sm border-b border-[#53B16F]/20 sticky top-0 z-10 safe-area-top">
         <div className="max-w-2xl mx-auto px-4 py-4 flex items-center justify-between">
           <button
             onClick={() => navigate(-1)}
             className="flex items-center gap-2 text-[#53B16F] hover:text-[#53B16F]/80 transition-colors"
           >
             <ArrowLeft className="w-5 h-5" />
-            <span className="text-sm font-medium">Retour</span>
+            <span className="text-sm font-medium hidden xs:inline">Retour</span>
           </button>
 
           <div className="text-center">
             <h1 className="text-lg font-semibold text-[#53B16F]">
-              Mes Statistiques
+              {t.title}
             </h1>
-            <p className="text-xs text-[#53B16F]/70">Tableau de bord d'apprentissage</p>
+            <p className="text-xs text-gray-600 hidden xs:block">
+              {t.subtitle}
+            </p>
           </div>
 
           <button
@@ -117,123 +208,148 @@ const ProfilePage = () => {
       </div>
 
       <div className="max-w-2xl mx-auto px-4 py-6 space-y-6">
-        {/* Bannière principale */}
+        {/* Section Compte */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="bg-gradient-to-r from-[#53B16F] to-[#53B16F] rounded-3xl p-6 text-white shadow-xl"
+          className="space-y-4"
         >
-          <div className="flex items-center justify-between mb-4">
-            <div>
-              <h2 className="text-2xl font-bold">Progression Globale</h2>
-              <p className="text-white/80 text-sm">Basé sur ton vocabulaire personnel</p>
-            </div>
-            <BarChart3 className="w-8 h-8 text-white/80" />
-          </div>
+          <h2 className="text-lg font-semibold text-[#53B16F] flex items-center gap-2">
+            <User className="w-5 h-5" />
+            {t.sections.account}
+          </h2>
 
-          <div className="bg-white/20 rounded-2xl p-4">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-sm font-medium">Niveau de maîtrise</span>
-              <span className="text-sm font-bold">{masteryPercentage}%</span>
+          <div className="space-y-3">
+            {/* Nom */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t.fields.name}
+              </label>
+              <input
+                type="text"
+                value={userData.name}
+                onChange={(e) => setUserData({ ...userData, name: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53B16F] focus:border-transparent"
+              />
             </div>
-            <div className="w-full bg-white/20 rounded-full h-3 overflow-hidden">
-              <motion.div
-                initial={{ width: 0 }}
-                animate={{ width: `${masteryPercentage}%` }}
-                transition={{ duration: 1, delay: 0.3 }}
-                className="h-full bg-white rounded-full"
+
+            {/* Email */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t.fields.email}
+              </label>
+              <input
+                type="email"
+                value={userData.email}
+                onChange={(e) => setUserData({ ...userData, email: e.target.value })}
+                className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-[#53B16F] focus:border-transparent"
               />
             </div>
           </div>
         </motion.div>
 
-        {/* Cartes de statistiques */}
-        <div className="grid grid-cols-2 gap-4">
-          {statsCards.map((stat, index) => {
-            const Icon = stat.icon;
-            return (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 0.1 * index }}
-                className="bg-white rounded-2xl p-4 shadow-lg border border-[#53B16F]/20"
-              >
-                <div className="flex items-center gap-3 mb-2">
-                  <div className="w-10 h-10 rounded-xl bg-[#53B16F]/10 flex items-center justify-center">
-                    <Icon className="w-5 h-5 text-[#53B16F]" />
-                  </div>
-                  <div>
-                    <div className="text-2xl font-bold text-[#53B16F]">{stat.value}</div>
-                    <div className="text-xs text-[#53B16F]/70">{stat.label}</div>
-                  </div>
-                </div>
-                <div className="text-xs text-[#53B16F]/60">{stat.subtitle}</div>
-              </motion.div>
-            );
-          })}
-        </div>
-
-        {/* Progression détaillée */}
+        {/* Section Préférences */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.5 }}
-          className="bg-white rounded-3xl p-6 shadow-lg border border-[#53B16F]/20"
+          transition={{ delay: 0.1 }}
+          className="space-y-4"
         >
-          <div className="flex items-center gap-2 mb-4">
-            <TrendingUp className="w-6 h-6 text-[#53B16F]" />
-            <h3 className="text-lg font-semibold text-[#53B16F]">Progression Détaillée</h3>
-          </div>
+          <h2 className="text-lg font-semibold text-[#53B16F] flex items-center gap-2">
+            <Settings className="w-5 h-5" />
+            {t.sections.preferences}
+          </h2>
 
-          <div className="space-y-4">
-            {progressItems.map((item, index) => (
-              <motion.div
-                key={item.label}
-                initial={{ opacity: 0, x: -20 }}
-                animate={{ opacity: 1, x: 0 }}
-                transition={{ delay: 0.6 + index * 0.1 }}
-                className="space-y-2"
-              >
-                <div className="flex justify-between text-sm">
-                  <span className="text-[#53B16F] font-medium">{item.label}</span>
-                  <span className="text-[#53B16F]/70">{item.current}/{item.total}</span>
-                </div>
-                <div className="w-full bg-[#53B16F]/10 rounded-full h-2 overflow-hidden">
-                  <motion.div
-                    initial={{ width: 0 }}
-                    animate={{ width: `${(item.current / item.total) * 100}%` }}
-                    className="h-full bg-[#53B16F] rounded-full"
-                  />
-                </div>
-              </motion.div>
-            ))}
+          <div className="space-y-3">
+            {/* Sélecteur de langue */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+              <label className="block text-sm font-medium text-gray-700 mb-3">
+                {t.fields.language}
+              </label>
+              <LanguageSelector
+                currentLanguage={userData.language}
+                onLanguageChange={handleLanguageChange}
+                size="md"
+              />
+            </div>
+
+            {/* Professeur */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t.fields.teacher}
+              </label>
+              <div className="text-gray-600 text-sm">
+                {userData.teacher || 'Non défini'}
+              </div>
+            </div>
+
+            {/* Abonnement */}
+            <div className="bg-white rounded-xl p-4 shadow-sm border border-gray-200">
+              <label className="block text-sm font-medium text-gray-700 mb-2">
+                {t.fields.subscription}
+              </label>
+              <div className="flex items-center justify-between">
+                <span className="text-gray-600 text-sm capitalize">
+                  {userData.subscription}
+                </span>
+                {userData.trialDaysLeft > 0 && (
+                  <span className="text-[#53B16F] text-sm font-medium">
+                    {userData.trialDaysLeft} jours d'essai
+                  </span>
+                )}
+                <button
+                  onClick={() => navigate('/subscription')}
+                  className="text-[#53B16F] text-sm font-medium hover:text-[#53B16F]/80"
+                >
+                  Modifier
+                </button>
+              </div>
+            </div>
           </div>
         </motion.div>
 
-        {/* Actions rapides */}
+        {/* Section Support */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.9 }}
-          className="grid grid-cols-2 gap-3"
+          transition={{ delay: 0.2 }}
+          className="space-y-3"
         >
-          <button
-            onClick={() => navigate('/review')}
-            className="bg-[#53B16F] text-white font-medium py-3 px-4 rounded-xl text-sm shadow-lg hover:shadow-xl transition-shadow"
-          >
-            Réviser
-          </button>
-          <button
-            onClick={() => navigate('/scan')}
-            className="bg-white text-[#53B16F] font-medium py-3 px-4 rounded-xl text-sm shadow-lg border border-[#53B16F]/20 hover:shadow-xl transition-shadow"
-          >
-            Scanner
-          </button>
+          <h2 className="text-lg font-semibold text-[#53B16F] flex items-center gap-2">
+            <HelpCircle className="w-5 h-5" />
+            {t.sections.support}
+          </h2>
+
+          <div className="grid gap-2">
+            <button className="flex items-center gap-3 p-3 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-[#53B16F] transition-colors">
+              <Bell className="w-5 h-5 text-[#53B16F]" />
+              <span className="text-gray-700">{t.menu.notifications}</span>
+            </button>
+
+            <button className="flex items-center gap-3 p-3 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-[#53B16F] transition-colors">
+              <Shield className="w-5 h-5 text-[#53B16F]" />
+              <span className="text-gray-700">{t.menu.privacy}</span>
+            </button>
+
+            <button className="flex items-center gap-3 p-3 bg-white rounded-xl shadow-sm border border-gray-200 hover:border-[#53B16F] transition-colors">
+              <HelpCircle className="w-5 h-5 text-[#53B16F]" />
+              <span className="text-gray-700">{t.menu.help}</span>
+            </button>
+          </div>
         </motion.div>
+
+        {/* Bouton Sauvegarder */}
+        <motion.button
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3 }}
+          onClick={handleSaveProfile}
+          className="w-full bg-[#53B16F] text-white py-3 rounded-xl font-semibold hover:bg-[#53B16F]/90 transition-colors shadow-lg"
+        >
+          {t.buttons.save}
+        </motion.button>
       </div>
 
-      {/* Bottom Navigation */}
       <BottomNav />
     </div>
   );
